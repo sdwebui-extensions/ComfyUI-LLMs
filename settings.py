@@ -1,5 +1,6 @@
 import os
 import pathlib
+import folder_paths
 
 import yaml
 
@@ -29,7 +30,11 @@ DEFAULT_SETTINGS = {
 
 
 def load_settings():
-    path = os.path.join(os.path.dirname(__file__), "settings.yaml")
+    if not os.path.exists(os.path.join(folder_paths.models_dir, "ComfyUI-LLMs")):
+        os.makedirs(os.path.join(folder_paths.models_dir, "ComfyUI-LLMs"))
+    if not os.path.exists(os.path.join(folder_paths.models_dir, "ComfyUI-LLMs",  "settings.yaml")):
+        os.system(f'cp {os.path.join(os.path.dirname(__file__), "settings.yaml")} {os.path.join(folder_paths.models_dir, "ComfyUI-LLMs",  "settings.yaml")}')
+    path = os.path.join(folder_paths.models_dir, "ComfyUI-LLMs",  "settings.yaml")
     file_path = pathlib.Path(path)
     if not file_path.exists():
         return DEFAULT_SETTINGS['cyberdolphin']
